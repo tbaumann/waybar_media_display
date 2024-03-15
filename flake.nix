@@ -28,7 +28,7 @@
         {
           # Rust package
           packages.default = pkgs.symlinkJoin {
-            name = "waybar_media_display_";
+            name = "waybar_media_display";
             paths = [
               pkgs.playerctl
               (
