@@ -22,20 +22,26 @@
           ];
           rust-toolchain = pkgs.symlinkJoin {
             name = "rust-toolchain";
-            paths = [ pkgs.rustc pkgs.cargo pkgs.cargo-watch pkgs.rust-analyzer pkgs.rustPlatform.rustcSrc ];
+            paths = with pkgs; [ rustc cargo cargo-watch rust-analyzer rustPlatform.rustcSrc ];
           };
         in
         {
           # Rust package
-          packages.default = pkgs.rustPlatform.buildRustPackage {
-            inherit (cargoToml.package) name version;
-            src = ./.;
-            cargoLock.lockFile = ./Cargo.lock;
-            buildInputs = nonRustDeps;
-            nativeBuildInputs = with pkgs; [
-              rust-toolchain
-              pkgs.pkg-config
-              pkgs.openssl.dev
+          packages.default = pkgs.symlinkJoin {
+            name = "waybar_media_display_";
+            paths = [
+              pkgs.playerctl
+              (
+              pkgs.rustPlatform.buildRustPackage {
+                inherit (cargoToml.package) name version;
+                src = ./.;
+                cargoLock.lockFile = ./Cargo.lock;
+                buildInputs = nonRustDeps;
+                nativeBuildInputs = with pkgs; [
+                  rust-toolchain
+                ];
+              }
+              )
             ];
           };
 
@@ -56,8 +62,6 @@
             nativeBuildInputs = with pkgs; [
               just
               rust-toolchain
-              pkgs.pkg-config
-              pkgs.openssl.dev
             ];
             RUST_BACKTRACE = 1;
           };
