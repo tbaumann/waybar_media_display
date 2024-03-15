@@ -1,3 +1,9 @@
+# Abandonware
+
+The original source tree on github and every trace of the author has vanished.
+
+I am re-publishing the source downloaded from crates.io and added a flake.nix
+
 # Waybar Media Display Module
 ![Media Player Module](https://user-images.githubusercontent.com/72793125/181866336-9ccfdc0e-7f72-4408-8414-604528eea305.png)
 
