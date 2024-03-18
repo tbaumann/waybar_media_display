@@ -19,6 +19,7 @@
           cargoToml = builtins.fromTOML (builtins.readFile ./Cargo.toml);
           nonRustDeps = [
             pkgs.libiconv
+            pkgs.playerctl
           ];
           rust-toolchain = pkgs.symlinkJoin {
             name = "rust-toolchain";
@@ -27,12 +28,7 @@
         in
         {
           # Rust package
-          packages.default = pkgs.symlinkJoin {
-            name = "waybar_media_display";
-            paths = [
-              pkgs.playerctl
-              (
-              pkgs.rustPlatform.buildRustPackage {
+          packages.default = pkgs.rustPlatform.buildRustPackage {
                 inherit (cargoToml.package) name version;
                 src = ./.;
                 cargoLock.lockFile = ./Cargo.lock;
@@ -40,9 +36,6 @@
                 nativeBuildInputs = with pkgs; [
                   rust-toolchain
                 ];
-              }
-              )
-            ];
           };
 
           # Rust dev environment
